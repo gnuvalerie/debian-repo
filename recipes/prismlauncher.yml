@@ -19,6 +19,8 @@ deps:
   - qt6-networkauth-dev
   - openjdk-21-jdk
   - libgl1-mesa-dev
+  - g++
+  - gcc
 build: |
   cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build -j$(nproc)

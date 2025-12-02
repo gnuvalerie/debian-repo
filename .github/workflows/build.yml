@@ -29,6 +29,15 @@ jobs:
             cd dists/stable/main/binary-amd64
             dpkg-scanpackages ../../../../pool/main /dev/null > Packages
             gzip -k Packages
+            cat > dists/stable/Release <<EOF
+          Origin: gnuvalerie
+          Label: gnuvalerie
+          Suite: stable
+          Codename: stable
+          Architectures: amd64
+          Components: main
+          Description: gnuvalerie debian repo
+          EOF
           '
       
       - uses: peaceiris/actions-gh-pages@v4

@@ -19,6 +19,7 @@ jobs:
         run: |
           docker run -v $PWD:/work -w /work debian:trixie bash -c '
             apt update
+            apt install git
             mkdir -p pool/main
             for recipe in recipes/*.yml; do
               bash build-recipe.sh "$recipe"

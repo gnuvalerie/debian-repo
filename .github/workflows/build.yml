@@ -21,7 +21,7 @@ jobs:
             apt update
             mkdir -p pool/main
             for recipe in recipes/*.yml; do
-              bash build-package.sh "$recipe"
+              bash build-recipe.sh "$recipe"
             done
             apt install -y dpkg-dev
             mkdir -p dists/stable/main/binary-amd64

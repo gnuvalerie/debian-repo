@@ -11,6 +11,7 @@ deps:
   - zlib1g-dev
   - openjdk-21-jdk
   - libgl1-mesa-dev
+  - libcmark-dev
 build: |
   cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build -j$(nproc)

@@ -4,8 +4,9 @@ recipe_abs=$(realpath $recipe)
 
 name=$(grep '^name:' $recipe_abs | cut -d: -f2 | xargs)
 repo=$(grep '^repo:' $recipe_abs | cut -d: -f2- | xargs)
-deps=$(awk '/^deps:/,/^[^ ]/ {if ($0 ~ /^  -/) print $2}' $recipe_abs | tr '\n' ' ')
+deps=$(awk '/^deps:/,/^build:/ {if ($0 ~ /^  - /) print $2}' $recipe_abs | tr '\n' ' ')
 
+echo "Installing: $deps"
 apt install -y $deps
 
 git clone --recursive $repo src

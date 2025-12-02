@@ -7,11 +7,11 @@ deps:
   - qtbase5-dev
   - extra-cmake-modules
   - zlib1g-dev
-  - openjdk-17-jdk
+  - openjdk-17-jdk-headless
   - libgl1-mesa-dev
 build: |
   cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build -j$(nproc)
   DESTDIR=pkg cmake --install build
   mkdir -p pkg/DEBIAN
-  echo -e "Package: prismlauncher\nVersion: $(git describe --tags)\nArchitecture: amd64\nMaintainer: gnuvalerie\nDepends: qtbase5-dev, openjdk-17-jre\nDescription: Minecraft launcher" > pkg/DEBIAN/control
+  echo -e "Package: prismlauncher\nVersion: $(git describe --tags)\nArchitecture: amd64\nMaintainer: gnuvalerie\nDepends: openjdk-17-jre-headless, qtbase5-dev\nDescription: Minecraft launcher" > pkg/DEBIAN/control

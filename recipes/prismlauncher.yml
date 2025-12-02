@@ -4,7 +4,7 @@ deps:
   - git
   - cmake
   - build-essential
-  - qtbase5-dev
+  - qt6-base-dev
   - extra-cmake-modules
   - zlib1g-dev
   - openjdk-21-jdk

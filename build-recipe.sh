@@ -1,15 +1,17 @@
 #!/bin/bash
 recipe=$1
-name=$(yq '.name' $recipe)
-repo=$(yq '.repo' $recipe)
-deps=$(yq '.deps[]' $recipe)
+
+name=$(grep '^name:' $recipe | cut -d: -f2 | xargs)
+repo=$(grep '^repo:' $recipe | cut -d: -f2- | xargs)
+deps=$(awk '/^deps:/,/^[^ ]/ {if ($0 ~ /^  -/) print $2}' $recipe | tr '\n' ' ')
 
 apt install -y $deps
 
 git clone --recursive $repo src
 cd src
 
-eval "$(yq '.build' $recipe)"
+build=$(awk '/^build: \|/,/^[^ ]/ {if (NR > 1 && $0 !~ /^[^ ]/) print}' $recipe)
+eval "$build"
 
 dpkg-deb --build pkg ../pool/main/${name}.deb
 cd ..

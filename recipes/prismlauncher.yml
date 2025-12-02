@@ -1,0 +1,19 @@
+name: prismlauncher
+repo: https://github.com/PrismLauncher/PrismLauncher.git
+deps:
+  - wget
+  - curl
+  - openjdk-21-jre-headless
+  - qt6-base-dev
+build: |
+  version=$(curl -s https://api.github.com/repos/PrismLauncher/PrismLauncher/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+  wget https://github.com/PrismLauncher/PrismLauncher/releases/download/$version//PrismLauncher-Linux-Qt6-Portable-$version.tar.gz
+  mkdir -p pkg/opt pkg/usr/bin pkg/usr/share/applications pkg/usr/share/pixmaps pkg/DEBIAN
+  tar xf PrismLauncher-Linux-Portable-$version.tar.gz -C pkg/opt
+  mv pkg/opt/PrismLauncher pkg/opt/prismlauncher
+  echo '#!/bin/sh' > pkg/usr/bin/prismlauncher
+  echo 'exec /opt/prismlauncher/bin/prismlauncher "$@"' >> pkg/usr/bin/prismlauncher
+  chmod +x pkg/usr/bin/prismlauncher
+  cp pkg/opt/prismlauncher/share/applications/*.desktop pkg/usr/share/applications/
+  cp pkg/opt/prismlauncher/share/icons/hicolor/scalable/apps/*.svg pkg/usr/share/pixmaps/
+  echo -e "Package: prismlauncher\nVersion: $version\nArchitecture: amd64\nMaintainer: gnuvalerie\nDepends: openjdk-21-jre-headless\nDescription: Minecraft launcher" > pkg/DEBIAN/control

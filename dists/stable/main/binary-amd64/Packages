@@ -1,0 +1,12 @@
+Package: prismlauncher
+Version: 9.4
+Architecture: amd64
+Maintainer: gnuvalerie
+Depends: openjdk-21-jre-headless
+Filename: ../../../../pool/main/prismlauncher.deb
+Size: 824
+MD5sum: 9d90184aada88f738bb887c9592b3236
+SHA1: bfd4e799174ccad6dd9e6bee9f12c95f3991f68e
+SHA256: abb05b48ff9bbd8812770295f1d59d46870cb49b50ff550ce84a8130a2ce6e80
+Description: Minecraft launcher
+

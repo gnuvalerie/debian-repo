@@ -1,0 +1,36 @@
+name: Builder
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: debian:trixie
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build packages
+        run: |
+          apt update
+          mkdir -p pool/main
+          for recipe in recipes/*.yml; do
+            bash build-recipe.sh "$recipe"
+          done
+      
+      - name: Generate repo
+        run: |
+          apt install -y dpkg-dev
+          mkdir -p dists/stable/main/binary-amd64
+          cd dists/stable/main/binary-amd64
+          dpkg-scanpackages ../../../../pool/main /dev/null > Packages
+          gzip -k Packages
+      
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./

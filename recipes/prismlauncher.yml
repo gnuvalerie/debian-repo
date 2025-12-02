@@ -1,29 +1,19 @@
 name: prismlauncher
 repo: https://github.com/PrismLauncher/PrismLauncher.git
 deps:
-  - cmake
-  - ninja-build
-  - extra-cmake-modules
-  - pkg-config
-  - scdoc
-  - cmark
-  - gamemode-dev
-  - libarchive-dev
-  - libcmark-dev
-  - libqrencode-dev
-  - zlib1g-dev
-  - libxcb-cursor-dev
-  - libtomlplusplus-dev
+  - wget
+  - curl
+  - openjdk-21-jre-headless
   - qt6-base-dev
-  - qt6-5compat-dev
-  - qt6-networkauth-dev
-  - openjdk-21-jdk
-  - libgl1-mesa-dev
-  - g++
-  - gcc
 build: |
-  cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/usr
-  cmake --build build -j$(nproc)
-  DESTDIR=pkg cmake --install build
-  mkdir -p pkg/DEBIAN
-  echo -e "Package: prismlauncher\nVersion: $(git describe --tags)\nArchitecture: amd64\nMaintainer: gnuvalerie\nDepends: openjdk-17-jre-headless, qtbase5-dev\nDescription: Minecraft launcher" > pkg/DEBIAN/control
+  version=$(curl -s https://api.github.com/repos/PrismLauncher/PrismLauncher/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+  wget https://github.com/PrismLauncher/PrismLauncher/releases/download/$version/PrismLauncher-Linux-Portable-$version.tar.gz
+  mkdir -p pkg/opt pkg/usr/bin pkg/usr/share/applications pkg/usr/share/pixmaps pkg/DEBIAN
+  tar xf PrismLauncher-Linux-Portable-$version.tar.gz -C pkg/opt
+  mv pkg/opt/PrismLauncher pkg/opt/prismlauncher
+  echo '#!/bin/sh' > pkg/usr/bin/prismlauncher
+  echo 'exec /opt/prismlauncher/bin/prismlauncher "$@"' >> pkg/usr/bin/prismlauncher
+  chmod +x pkg/usr/bin/prismlauncher
+  cp pkg/opt/prismlauncher/share/applications/*.desktop pkg/usr/share/applications/
+  cp pkg/opt/prismlauncher/share/icons/hicolor/scalable/apps/*.svg pkg/usr/share/pixmaps/
+  echo -e "Package: prismlauncher\nVersion: $version\nArchitecture: amd64\nMaintainer: gnuvalerie\nDepends: openjdk-21-jre-headless\nDescription: Minecraft launcher" > pkg/DEBIAN/control

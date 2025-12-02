@@ -1,10 +1,12 @@
 name: prismlauncher
 repo: https://github.com/PrismLauncher/PrismLauncher.git
 deps:
-  - git
   - cmake
   - build-essential
   - qt6-base-dev
+  - qt6-5compat-dev
+  - qt6-networkauth-dev
+  - libxkbcommon-dev
   - extra-cmake-modules
   - zlib1g-dev
   - openjdk-21-jdk

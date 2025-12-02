@@ -7,7 +7,7 @@ deps:
   - qtbase5-dev
   - extra-cmake-modules
   - zlib1g-dev
-  - openjdk-17-jdk-headless
+  - openjdk-21-jdk
   - libgl1-mesa-dev
 build: |
   cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/usr

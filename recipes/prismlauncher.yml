@@ -2,16 +2,23 @@ name: prismlauncher
 repo: https://github.com/PrismLauncher/PrismLauncher.git
 deps:
   - cmake
-  - build-essential
+  - ninja-build
+  - extra-cmake-modules
+  - pkg-config
+  - scdoc
+  - cmark
+  - gamemode-dev
+  - libarchive-dev
+  - libcmark-dev
+  - libqrencode-dev
+  - zlib1g-dev
+  - libxcb-cursor-dev
+  - libtomlplusplus-dev
   - qt6-base-dev
   - qt6-5compat-dev
   - qt6-networkauth-dev
-  - libxkbcommon-dev
-  - extra-cmake-modules
-  - zlib1g-dev
   - openjdk-21-jdk
   - libgl1-mesa-dev
-  - libcmark-dev
 build: |
   cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build -j$(nproc)
